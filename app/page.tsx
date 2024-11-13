@@ -1,11 +1,38 @@
 import Header from './components/Header'
 import Link from 'next/link'
 
-// Dummy data for blog posts
+// Updated blog post data structure
 const blogPosts = [
-  { id: 1, title: "Getting Started with Next.js", date: "2023-06-01" },
-  { id: 2, title: "Why React is Awesome", date: "2023-06-05" },
-  { id: 3, title: "Introduction to TypeScript", date: "2023-06-10" },
+  {
+    id: 1,
+    title: "Getting Started with Next.js",
+    date: "2023-06-01",
+    author: {
+      name: "John Doe",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John"
+    },
+    tags: ["Next.js", "React", "Web Development"]
+  },
+  {
+    id: 2,
+    title: "Why React is Awesome",
+    date: "2023-06-05",
+    author: {
+      name: "Jane Smith",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane"
+    },
+    tags: ["React", "JavaScript", "Frontend"]
+  },
+  {
+    id: 3,
+    title: "Introduction to TypeScript",
+    date: "2023-06-10",
+    author: {
+      name: "Mike Johnson",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike"
+    },
+    tags: ["TypeScript", "JavaScript", "Programming"]
+  },
 ]
 
 export default function Home() {
@@ -24,8 +51,27 @@ export default function Home() {
           {blogPosts.map((post) => (
             <li key={post.id} className="border rounded-lg hover:shadow-lg transition-shadow duration-200">
               <Link href={`/blog/${post.id}`} className="block p-6">
+                <div className="flex items-center space-x-3 mb-3">
+                  <img 
+                    src={post.author.avatar} 
+                    alt={post.author.name}
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <span className="text-sm text-gray-600">{post.author.name}</span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-sm text-gray-500">{post.date}</span>
+                </div>
                 <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-                <p className="text-gray-500 text-sm">{post.date}</p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {post.tags.map((tag, index) => (
+                    <span 
+                      key={index}
+                      className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </Link>
             </li>
           ))}
