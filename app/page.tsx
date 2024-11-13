@@ -66,63 +66,65 @@ export default function Home() {
   return (
     <>
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        <section className="text-center mb-16">
+        <section className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-6">Tech Blog</h1>
           <p className="text-gray-600 text-xl max-w-2xl mx-auto">
             Explore the latest insights in web development, programming, and technology.
           </p>
         </section>
         
-        <div className="space-y-12">
+        <div className="space-y-8">
           {blogPosts.map((post) => (
             <article 
               key={post.id} 
               className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
               <Link href={`/blog/${post.id}`} className="block">
-                <div className="relative h-64 overflow-hidden">
-                  <img 
-                    src={post.thumbnail} 
-                    alt={post.title}
-                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center space-x-4 mb-6">
+                <div className="md:flex">
+                  <div className="md:w-1/3 relative h-48 md:h-auto overflow-hidden">
                     <img 
-                      src={post.author.avatar} 
-                      alt={post.author.name}
-                      className="w-12 h-12 rounded-full border-2 border-gray-100"
+                      src={post.thumbnail} 
+                      alt={post.title}
+                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                     />
-                    <div>
-                      <h3 className="font-medium text-gray-800">{post.author.name}</h3>
-                      <p className="text-sm text-gray-500">{post.author.role}</p>
-                    </div>
                   </div>
-
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800 hover:text-blue-600 transition-colors">
-                    {post.title}
-                  </h2>
-                  
-                  <p className="text-gray-600 mb-6 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag, index) => (
-                        <span 
-                          key={index}
-                          className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full hover:bg-gray-200 transition-colors"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  <div className="md:w-2/3 p-6">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <img 
+                        src={post.author.avatar} 
+                        alt={post.author.name}
+                        className="w-10 h-10 rounded-full border-2 border-gray-100"
+                      />
+                      <div>
+                        <h3 className="font-medium text-gray-800">{post.author.name}</h3>
+                        <p className="text-sm text-gray-500">{post.author.role}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>{post.date}</span>
-                      <span>•</span>
-                      <span>{post.readingTime}</span>
+
+                    <h2 className="text-xl font-bold mb-2 text-gray-800 hover:text-blue-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h2>
+                    
+                    <p className="text-gray-600 mb-4 text-sm line-clamp-2">
+                      {post.excerpt}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag, index) => (
+                          <span 
+                            key={index}
+                            className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-gray-200 transition-colors"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex items-center space-x-3 text-xs text-gray-500">
+                        <span>{post.date}</span>
+                        <span>•</span>
+                        <span>{post.readingTime}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
