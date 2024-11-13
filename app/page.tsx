@@ -1,68 +1,70 @@
-import Header from './components/Header'
+import Pagination from './components/Pagination'
 import Link from 'next/link'
+export const dynamic = 'force-dynamic';
+// Generate 30+ blog posts
+const blogPosts = Array.from({ length: 35 }, (_, i) => ({
+  id: i + 1,
+  title: [
+    "Getting Started with Next.js: A Comprehensive Guide",
+    "Understanding React Server Components",
+    "TypeScript Best Practices for 2024",
+    "Building Scalable APIs with GraphQL",
+    "Modern CSS Techniques and Tips",
+    "Introduction to Web Assembly",
+    "Docker for Frontend Developers",
+    "Advanced Git Workflows",
+    "React Performance Optimization",
+    "Building Accessible Web Applications"
+  ][i % 10] + ` ${Math.floor(i / 10) + 1}`,
+  date: new Date(2024, 0, i + 1).toISOString().split('T')[0],
+  author: {
+    name: [
+      "John Doe",
+      "Jane Smith",
+      "Mike Johnson",
+      "Sarah Wilson",
+      "Alex Brown"
+    ][i % 5],
+    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`,
+    role: [
+      "Senior Frontend Developer",
+      "Tech Lead",
+      "Software Architect",
+      "Backend Developer",
+      "Full Stack Developer"
+    ][i % 5]
+  },
+  excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+  readingTime: `${Math.floor(Math.random() * 10 + 5)} min read`,
+  tags: [
+    ["Next.js", "React", "Web Development"],
+    ["React", "JavaScript", "Frontend"],
+    ["TypeScript", "JavaScript", "Programming"],
+    ["GraphQL", "API", "Backend"],
+    ["CSS", "Design", "Frontend"],
+    ["WebAssembly", "Performance", "Programming"],
+    ["Docker", "DevOps", "Tools"],
+    ["Git", "Version Control", "Tools"],
+    ["React", "Performance", "Frontend"],
+    ["Accessibility", "HTML", "Frontend"]
+  ][i % 10],
+  thumbnail: `https://picsum.photos/800/400?random=${i}`
+}));
 
-// Updated blog post data structure
-const blogPosts = [
-  {
-    id: 1,
-    title: "Getting Started with Next.js: A Comprehensive Guide for Beginners",
-    date: "2023-06-01",
-    author: {
-      name: "John Doe",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-      role: "Senior Frontend Developer"
-    },
-    excerpt: "Learn how to build modern web applications with Next.js, from setup to deployment. This guide covers everything you need to know to get started with this powerful React framework.",
-    readingTime: "8 min read",
-    tags: ["Next.js", "React", "Web Development"],
-    thumbnail: "https://picsum.photos/800/400?random=1"
-  },
-  {
-    id: 2,
-    title: "Why React Hooks Have Revolutionized Frontend Development",
-    date: "2023-06-05",
-    author: {
-      name: "Jane Smith",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-      role: "Tech Lead"
-    },
-    excerpt: "Explore how React Hooks have transformed the way we write components and manage state in React applications. Discover practical examples and best practices.",
-    readingTime: "6 min read",
-    tags: ["React", "JavaScript", "Hooks", "Frontend"],
-    thumbnail: "https://picsum.photos/800/400?random=2"
-  },
-  {
-    id: 3,
-    title: "TypeScript Best Practices for Large-Scale Applications",
-    date: "2023-06-10",
-    author: {
-      name: "Mike Johnson",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
-      role: "Software Architect"
-    },
-    excerpt: "Discover how TypeScript can improve your code quality and team productivity. Learn about advanced types, decorators, and architectural patterns for scaling your applications.",
-    readingTime: "10 min read",
-    tags: ["TypeScript", "JavaScript", "Architecture", "Programming"],
-    thumbnail: "https://picsum.photos/800/400?random=3"
-  },
-  {
-    id: 4,
-    title: "Building Scalable APIs with GraphQL and Node.js",
-    date: "2023-06-15",
-    author: {
-      name: "Sarah Wilson",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-      role: "Backend Developer"
-    },
-    excerpt: "Step-by-step guide to creating efficient and scalable APIs using GraphQL. Learn about schema design, resolvers, and performance optimization techniques.",
-    readingTime: "12 min read",
-    tags: ["GraphQL", "Node.js", "API", "Backend"],
-    thumbnail: "https://picsum.photos/800/400?random=4"
-  },
-  // Add more blog posts as needed
-]
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { page?: string }
+}) {
+  const ITEMS_PER_PAGE = 5;
+  const page = Number(searchParams?.page) || 1;
+  const totalPages = Math.ceil(blogPosts.length / ITEMS_PER_PAGE);
+  
+  const paginatedPosts = blogPosts.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
 
-export default function Home() {
   return (
     <>
       <main className="container mx-auto px-4 py-8 max-w-4xl">
@@ -74,7 +76,7 @@ export default function Home() {
         </section>
         
         <div className="space-y-8">
-          {blogPosts.map((post) => (
+          {paginatedPosts.map((post) => (
             <article 
               key={post.id} 
               className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
@@ -132,6 +134,11 @@ export default function Home() {
             </article>
           ))}
         </div>
+
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+        />
       </main>
     </>
   )
