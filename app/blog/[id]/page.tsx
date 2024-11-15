@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
-import { notFound } from 'next/navigation'
+import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 interface PageParams {
