@@ -1,11 +1,15 @@
-import Link from 'next/link'
+import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-gray-800 hover:text-gray-600">
+          <Link
+            href="/"
+            className="text-2xl font-bold text-gray-800 hover:text-gray-600"
+          >
             MyBlog
           </Link>
           <ul className="flex space-x-6">
@@ -20,13 +24,24 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-800">
+              <Link
+                href="/contact"
+                className="text-gray-600 hover:text-gray-800"
+              >
                 Contact
               </Link>
+            </li>
+            <li>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             </li>
           </ul>
         </nav>
       </div>
     </header>
-  )
+  );
 }
