@@ -10,14 +10,15 @@ interface PostWithRelations extends Post {
 }
 
 export const dynamic = "force-dynamic";
-
+type Params = Promise<{ page: string }>;
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Params;
 }) {
+  const params = await searchParams;
   const ITEMS_PER_PAGE = 5;
-  const params = await Promise.resolve(searchParams);
+  // const params = await Promise.resolve(searchParams);
   const currentPage = params.page ? parseInt(params.page) : 1;
 
   // Get total count of posts

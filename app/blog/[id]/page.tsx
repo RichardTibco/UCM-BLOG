@@ -3,17 +3,17 @@ import { prisma } from '@/lib/prisma'
 
 import { notFound } from 'next/navigation'
 
+type Params = Promise<{ id: string }>;
 interface PageParams {
-  params: {
-    id: string;
-  };
+  params: Params;
 }
 
 export default async function BlogPost({ params }: PageParams) {
   try {
+    const { id } = await params;
     const post = await prisma.post.findUnique({
       where: {
-        id: Number(params.id)
+        id: Number(id)
       },
       include: {
         author: true,
