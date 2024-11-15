@@ -1,5 +1,5 @@
-import { SignedIn } from "@clerk/nextjs";
-import CreatePost from "../components/CreatePost";
+// import { SignedIn } from "@clerk/nextjs";
+// import CreatePost from "../components/CreatePost";
 
 export default function About() {
   return (
