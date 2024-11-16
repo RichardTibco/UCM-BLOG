@@ -1,5 +1,6 @@
 import Pagination from "./components/Pagination";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { Post, Author, Tag } from "@prisma/client";
 
@@ -11,11 +12,7 @@ interface PostWithRelations extends Post {
 
 export const dynamic = "force-dynamic";
 type Params = Promise<{ page: string }>;
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Params;
-}) {
+export default async function Home({ searchParams }: { searchParams: Params }) {
   const params = await searchParams;
   const ITEMS_PER_PAGE = 5;
   // const params = await Promise.resolve(searchParams);
@@ -58,19 +55,23 @@ export default async function Home({
               <Link href={`/blog/${post.id}`} className="block">
                 <div className="md:flex">
                   <div className="md:w-1/3 relative h-48 md:h-auto overflow-hidden">
-                    <img
+                    <Image
                       src={post.thumbnail}
                       alt={post.title}
-                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                      fill
+                      className="object-cover transform hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                   <div className="md:w-2/3 p-6">
                     <div className="flex items-center space-x-4 mb-4">
-                      <img
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                        className="w-10 h-10 rounded-full border-2 border-gray-100"
-                      />
+                      <div className="relative w-10 h-10">
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name}
+                          fill
+                          className="rounded-full border-2 border-gray-100"
+                        />
+                      </div>
                       <div>
                         <h3 className="font-medium text-gray-800">
                           {post.author.name}
